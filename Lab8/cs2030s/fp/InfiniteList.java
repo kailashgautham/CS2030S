@@ -18,7 +18,7 @@ public class InfiniteList<T> {
   private Memo<InfiniteList<T>> tail;
 
   /** The static final END object of type End, which signifies the end of a list. */
-  private static final End END = new End(null, null);
+  private static final End END = new End<Object>(null, null);
 
   /**
    * A private Constructor that creates an InfiniteList with a head and tail.
@@ -118,7 +118,7 @@ public class InfiniteList<T> {
    */
   public InfiniteList<T> limit(long n) {
     if (n < 1) {
-      return this.end();
+      return InfiniteList.<T>end();
     }
     return new InfiniteList<T>(this.head, Memo.from(() -> this.tail.get()
           .limit(n - this.head.get().transform(x -> 1).except(() -> 0))));
@@ -223,7 +223,10 @@ public class InfiniteList<T> {
    * @return end the END object, typecasted to type InfiniteList of type T. 
    */
   public static <T> InfiniteList<T> end() {
-
+    // It is safe to use SuppressWarnings here, as the
+    // End class is a subclass of InfiniteList,
+    // and no operations are performed on the END object.
+    // The class End also has no values that can be operated on.
     @SuppressWarnings("unchecked")
     InfiniteList<T> end = (InfiniteList<T>) InfiniteList.END;
     return end;
@@ -234,14 +237,14 @@ public class InfiniteList<T> {
    * The class End which extends InfiniteList. 
    * It is used to signify the end of an InfiniteList.
    */
-  private static class End extends InfiniteList<Object> {
+  private static class End<T> extends InfiniteList<T> {
 
     /** Private constructor for the End class.
      *
      * @param head The head of the InfiniteList, which is null (end of list).
      * @param tail The tail of the InfiniteList, which is null (end of list).
      */
-    private End(Memo<Actually<Object>> head, Memo<InfiniteList<Object>> tail) {
+    private End(Memo<Actually<T>> head, Memo<InfiniteList<T>> tail) {
 
       super(null, null);
 
@@ -256,7 +259,7 @@ public class InfiniteList<T> {
     }
 
     @Override
-    public End head() {
+    public T head() {
 
       throw new NoSuchElementException();
 
@@ -264,7 +267,7 @@ public class InfiniteList<T> {
 
 
     @Override
-    public End tail() {
+    public End<T> tail() {
 
       throw new NoSuchElementException();
 
@@ -279,29 +282,29 @@ public class InfiniteList<T> {
 
     
     @Override 
-    public <R> InfiniteList<R> map(Immutator<? extends R, ? super Object> f) {
-      return this.end();
+    public <R> InfiniteList<R> map(Immutator<? extends R, ? super T> f) {
+      return InfiniteList.<R>end();
     }
   
     @Override
-    public InfiniteList<Object> filter(Immutator<Boolean, ? super Object> pred) {
-      return this.end();
+    public InfiniteList<T> filter(Immutator<Boolean, ? super T> pred) {
+      return InfiniteList.<T>end();
     }
   
     @Override
-    public InfiniteList<Object> limit(long n) {
-      return this.end();
+    public InfiniteList<T> limit(long n) {
+      return InfiniteList.<T>end();
     }
 
     @Override
-    public InfiniteList<Object> takeWhile(Immutator<Boolean, ? super Object> pred) {
+    public InfiniteList<T> takeWhile(Immutator<Boolean, ? super T> pred) {
 
-      return this.end();
+      return InfiniteList.<T>end();
 
     }
 
     @Override  
-    public <U> U reduce(U id, Combiner<U, U, ? super Object> acc) {
+    public <U> U reduce(U id, Combiner<U, U, ? super T> acc) {
 
       return id;
 
