@@ -1,0 +1,91 @@
+Transformer.java:12: error: cannot find symbol
+public abstract class Transformer<R, P> implements Immutator<R, P> {
+                                                   ^
+  symbol: class Immutator
+Transformer.java:15: error: cannot find symbol
+  public Transformer<R, N> after(Transformer<P, N> transformer) {
+                                                ^
+  symbol:   class N
+  location: class Transformer<R,P>
+  where R,P are type-variables:
+    R extends Object declared in class Transformer
+    P extends Object declared in class Transformer
+Transformer.java:15: error: cannot find symbol
+  public Transformer<R, N> after(Transformer<P, N> transformer) {
+                        ^
+  symbol:   class N
+  location: class Transformer<R,P>
+  where R,P are type-variables:
+    R extends Object declared in class Transformer
+    P extends Object declared in class Transformer
+Transformer.java:35: error: cannot find symbol
+  public Transformer<T, P> before(Transformer<T, R> transformer) {
+                                              ^
+  symbol:   class T
+  location: class Transformer<R,P>
+  where R,P are type-variables:
+    R extends Object declared in class Transformer
+    P extends Object declared in class Transformer
+Transformer.java:35: error: cannot find symbol
+  public Transformer<T, P> before(Transformer<T, R> transformer) {
+                     ^
+  symbol:   class T
+  location: class Transformer<R,P>
+  where R,P are type-variables:
+    R extends Object declared in class Transformer
+    P extends Object declared in class Transformer
+Transformer.java:19: error: cannot find symbol
+    Transformer<R, N> object = new Transformer<R, N>() {
+                   ^
+  symbol:   class N
+  location: class Transformer<R,P>
+  where R,P are type-variables:
+    R extends Object declared in class Transformer
+    P extends Object declared in class Transformer
+Transformer.java:19: error: cannot find symbol
+    Transformer<R, N> object = new Transformer<R, N>() {
+                                                  ^
+  symbol:   class N
+  location: class Transformer<R,P>
+  where R,P are type-variables:
+    R extends Object declared in class Transformer
+    P extends Object declared in class Transformer
+Transformer.java:22: error: cannot find symbol
+      public R invoke(N n) {
+                      ^
+  symbol: class N
+Transformer.java:21: error: method does not override or implement a method from a supertype
+      @Override
+      ^
+Transformer.java:39: error: cannot find symbol
+    Transformer<T, P> object = new Transformer<T, P>() {
+                ^
+  symbol:   class T
+  location: class Transformer<R,P>
+  where R,P are type-variables:
+    R extends Object declared in class Transformer
+    P extends Object declared in class Transformer
+Transformer.java:39: error: cannot find symbol
+    Transformer<T, P> object = new Transformer<T, P>() {
+                                               ^
+  symbol:   class T
+  location: class Transformer<R,P>
+  where R,P are type-variables:
+    R extends Object declared in class Transformer
+    P extends Object declared in class Transformer
+Transformer.java:42: error: cannot find symbol
+      public T invoke(P p) {
+             ^
+  symbol: class T
+Transformer.java:41: error: method does not override or implement a method from a supertype
+      @Override
+      ^
+Transformer.java:44: error: cannot find symbol
+        return transformer.invoke(f.invoke(p));
+                                   ^
+  symbol:   method invoke(P)
+  location: variable f of type Transformer<R,P>
+  where P,R are type-variables:
+    P extends Object declared in class Transformer
+    R extends Object declared in class Transformer
+14 errors

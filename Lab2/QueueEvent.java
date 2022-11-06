@@ -1,0 +1,40 @@
+/**
+ * This class is a subclass of Event, which
+ * is called when there are no available
+ * counters, to check if there is space 
+ * in the entrance queue.
+ *
+ * @author Gautham Kailash
+ * @version CS2030S AY22/23 Semester 1
+ */
+public class QueueEvent extends Event {
+
+  private Customer customer;
+  private Shop shop;
+
+  public QueueEvent(double time, Customer customer, Shop shop) {
+
+    super(time);
+    this.customer = customer;
+    this.shop = shop;
+
+  }
+
+  @Override
+  public String toString() {
+
+    return
+      super.toString() + ": " + this.customer.toString() + 
+      " joined queue " + this.shop.queueToString();
+
+  }
+
+  @Override
+  public Event[] simulate() {
+
+    this.shop.enqueueEntrance(customer);
+    return new Event[] {};
+
+  }
+
+}
