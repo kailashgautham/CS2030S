@@ -18,7 +18,7 @@ public class InfiniteList<T> {
   private Memo<InfiniteList<T>> tail;
 
   /** The static final END object of type End, which signifies the end of a list. */
-  private static final End END = new End<Object>(null, null);
+  private static final End END = new End(null, null);
 
   /**
    * A private Constructor that creates an InfiniteList with a head and tail.
@@ -40,7 +40,7 @@ public class InfiniteList<T> {
    *
    * @return a new InfiniteList of type T.
    */
-  public static <T> InfiniteList<T> generate(Constant<T> prod) {
+  public static <T> InfiniteList<T> generate(Constant<? extends T> prod) {
     
     return new InfiniteList<T>(Memo.from(() -> Actually.ok(prod.init())), 
         Memo.from(() -> InfiniteList.<T>generate(prod)));
@@ -56,7 +56,7 @@ public class InfiniteList<T> {
    *
    * @return a new InfiniteList of type T.
    */
-  public static <T> InfiniteList<T> iterate(T seed, Immutator<T, T> func) {
+  public static <T> InfiniteList<T> iterate(T seed, Immutator<? extends T, ? super T> func) {
 
     return new InfiniteList<T>(Memo.from(Actually.ok(seed)), 
         Memo.from(() -> InfiniteList.<T>iterate(func.invoke(seed), func)));
@@ -176,7 +176,7 @@ public class InfiniteList<T> {
    * @return a variable of type U which is derived from
    *     the reduce operation.
    */
-  public <U> U reduce(U id, Combiner<U, U, ? super T> acc) {
+  public <U> U reduce(U id, Combiner<? extends U, ? super U, ? super T> acc) {
 
     return this.head.get()
       .transform(x -> this.tail.get().reduce(acc.combine(id, x), acc))
@@ -237,14 +237,14 @@ public class InfiniteList<T> {
    * The class End which extends InfiniteList. 
    * It is used to signify the end of an InfiniteList.
    */
-  private static class End<T> extends InfiniteList<T> {
+  private static class End extends InfiniteList<Object> {
 
     /** Private constructor for the End class.
      *
      * @param head The head of the InfiniteList, which is null (end of list).
      * @param tail The tail of the InfiniteList, which is null (end of list).
      */
-    private End(Memo<Actually<T>> head, Memo<InfiniteList<T>> tail) {
+    private End(Memo<Actually<Object>> head, Memo<InfiniteList<Object>> tail) {
 
       super(null, null);
 
@@ -259,7 +259,7 @@ public class InfiniteList<T> {
     }
 
     @Override
-    public T head() {
+    public Object head() {
 
       throw new NoSuchElementException();
 
@@ -267,7 +267,7 @@ public class InfiniteList<T> {
 
 
     @Override
-    public End<T> tail() {
+    public InfiniteList<Object> tail() {
 
       throw new NoSuchElementException();
 
@@ -282,29 +282,29 @@ public class InfiniteList<T> {
 
     
     @Override 
-    public <R> InfiniteList<R> map(Immutator<? extends R, ? super T> f) {
+    public <R> InfiniteList<R> map(Immutator<? extends R, ? super Object> f) {
       return InfiniteList.<R>end();
     }
   
     @Override
-    public InfiniteList<T> filter(Immutator<Boolean, ? super T> pred) {
-      return InfiniteList.<T>end();
+    public InfiniteList<Object> filter(Immutator<Boolean, ? super Object> pred) {
+      return InfiniteList.<Object>end();
     }
   
     @Override
-    public InfiniteList<T> limit(long n) {
-      return InfiniteList.<T>end();
+    public InfiniteList<Object> limit(long n) {
+      return InfiniteList.<Object>end();
     }
 
     @Override
-    public InfiniteList<T> takeWhile(Immutator<Boolean, ? super T> pred) {
+    public InfiniteList<Object> takeWhile(Immutator<Boolean, ? super Object> pred) {
 
-      return InfiniteList.<T>end();
+      return InfiniteList.<Object>end();
 
     }
 
     @Override  
-    public <U> U reduce(U id, Combiner<U, U, ? super T> acc) {
+    public <U> U reduce(U id, Combiner<? extends U, ? super U, ? super Object> acc) {
 
       return id;
 
